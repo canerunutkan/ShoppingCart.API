@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using ShoppingCart.Business.Managers.ShoppingCart;
+using ShoppingCart.Business.Models.Requests;
+using ShoppingCart.Business.Models.Responses;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +11,7 @@ using System.Threading.Tasks;
 namespace ShoppingCart.API.Controllers
 {
     [ApiController]
-    [Route("api/v1/shoppingcart")]
+    [Route("Api/V1/ShoppingCart")]
     public class ShoppingCartController : ControllerBase
     {
         private readonly ILogger<ShoppingCartController> _logger;
@@ -23,17 +25,10 @@ namespace ShoppingCart.API.Controllers
             _manager = manager;
         }
 
-        [HttpPost]
-        public IEnumerable<WeatherForecast> AddToCart()
+        [HttpPost("AddToCart")]
+        public AddToCartResponse AddToCart(AddToCartRequest request)
         {
-            var rng = new Random();
-            return Enumerable.Range(1, 5).Select(index => new WeatherForecast
-            {
-                Date = DateTime.Now.AddDays(index),
-                TemperatureC = rng.Next(-20, 55),
-                Summary = null
-            })
-            .ToArray();
+            return new AddToCartResponse();
         }
     }
 }
