@@ -1,3 +1,4 @@
+using Couchbase.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -28,6 +29,7 @@ namespace ShoppingCart.API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddSingleton<IShoppingCartManager, ShoppingCartManager>();
+            services.AddCouchbase(Configuration.GetSection("Couchbase"));
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
@@ -37,7 +39,7 @@ namespace ShoppingCart.API
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IHostApplicationLifetime appLifetime)
         {
             if (env.IsDevelopment())
             {
@@ -55,6 +57,11 @@ namespace ShoppingCart.API
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+            });
+
+            appLifetime.ApplicationStopped.Register(() =>
+            {
+                app.ApplicationServices.GetRequiredService<ICouchbaseLifetimeService>().Close();
             });
         }
     }

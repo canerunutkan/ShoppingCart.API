@@ -1,10 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using ShoppingCart.Business.Models.Requests;
+using System.Threading.Tasks;
 
 namespace ShoppingCart.Business.Managers.ShoppingCart
 {
-    public class IShoppingCartManager
+    public interface IShoppingCartManager
     {
+        Task<bool> AddToCart(AddToCartRequest request);
     }
 }

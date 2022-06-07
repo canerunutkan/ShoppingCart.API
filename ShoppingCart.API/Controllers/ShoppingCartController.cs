@@ -4,8 +4,6 @@ using ShoppingCart.Business.Managers.ShoppingCart;
 using ShoppingCart.Business.Models.Requests;
 using ShoppingCart.Business.Models.Responses;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace ShoppingCart.API.Controllers
@@ -26,9 +24,22 @@ namespace ShoppingCart.API.Controllers
         }
 
         [HttpPost("AddToCart")]
-        public AddToCartResponse AddToCart(AddToCartRequest request)
+        public async Task<AddToCartResponse> AddToCart(AddToCartRequest request)
         {
-            return new AddToCartResponse();
+            AddToCartResponse response = new();
+
+            try
+            {
+                response.IsSuccess = await _manager.AddToCart(request);
+            }
+            catch (Exception ex)
+            {
+                string error = $"Error: {ex.Message} Stack: {ex.StackTrace}";
+                response.Message = error;
+                _logger.LogError(error);
+            }
+
+            return response;
         }
     }
 }
