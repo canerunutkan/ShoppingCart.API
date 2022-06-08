@@ -1,10 +1,11 @@
 ﻿using Couchbase;
 using Couchbase.Extensions.DependencyInjection;
+using ShoppingCart.Data.Repositories.Models;
 using System.Threading.Tasks;
 
 namespace ShoppingCart.Data.Repositories.Couchbase
 {
-    public class CouchbaseProvider : IBaseRepository
+    public class CouchbaseProvider : ICouchbaseProvider
     {
         private readonly IBucket _bucket;
 
@@ -13,11 +14,11 @@ namespace ShoppingCart.Data.Repositories.Couchbase
             _bucket = bucketProvider.GetBucketAsync("default").GetAwaiter().GetResult();
         }
 
-        public Task<bool> AddToCart(int request)
+        public async Task<bool> AddToCartAsync(ShoppingCartItem item)
         {
-            var key = Guid.NewGuid().ToString();
-            _bucket.Collections.(key, user);
-            return "Inserted user with ID: " + key;
+            string key = $"{item.CustomerId}-{item.ProductId}";
+            await _bucket.DefaultCollection().InsertAsync(key, item);
+            return true;
         }
     }
 }

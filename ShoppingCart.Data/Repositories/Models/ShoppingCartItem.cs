@@ -1,6 +1,6 @@
-﻿namespace ShoppingCart.Business.Models.Requests
+﻿namespace ShoppingCart.Data.Repositories.Models
 {
-    public class AddToCartRequest
+    public class ShoppingCartItem
     {
         public int CustomerId { get; set; }
         public int ProductId { get; set; }

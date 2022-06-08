@@ -1,9 +1,10 @@
-﻿using System.Threading.Tasks;
+﻿using ShoppingCart.Data.Repositories.Models;
+using System.Threading.Tasks;
 
 namespace ShoppingCart.Data.Repositories
 {
     public interface IBaseRepository
     {
-        Task<bool> AddToCart(int request);
+        Task<bool> AddToCartAsync(ShoppingCartItem item);
     }
 }

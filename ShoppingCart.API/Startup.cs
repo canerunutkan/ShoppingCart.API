@@ -9,6 +9,8 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using ShoppingCart.Business.Managers.ShoppingCart;
+using ShoppingCart.Data.Repositories;
+using ShoppingCart.Data.Repositories.Couchbase;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,6 +31,7 @@ namespace ShoppingCart.API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddSingleton<IShoppingCartManager, ShoppingCartManager>();
+            services.AddSingleton<ICouchbaseProvider, CouchbaseProvider>();
             services.AddCouchbase(Configuration.GetSection("Couchbase"));
 
             services.AddControllers();
