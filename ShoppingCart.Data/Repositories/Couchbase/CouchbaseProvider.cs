@@ -7,11 +7,13 @@ namespace ShoppingCart.Data.Repositories.Couchbase
 {
     public class CouchbaseProvider : ICouchbaseProvider
     {
+        private readonly IBucketProvider _bucketProvider;
         private readonly IBucket _bucket;
 
         public CouchbaseProvider(IBucketProvider bucketProvider)
         {
-            _bucket = bucketProvider.GetBucketAsync("default").GetAwaiter().GetResult();
+            _bucketProvider = bucketProvider;
+            _bucket = _bucketProvider.GetBucketAsync("shoppingcart").GetAwaiter().GetResult();
         }
 
         public async Task<bool> AddToCartAsync(ShoppingCartItem item)
@@ -20,5 +22,6 @@ namespace ShoppingCart.Data.Repositories.Couchbase
             await _bucket.DefaultCollection().InsertAsync(key, item);
             return true;
         }
+
     }
 }

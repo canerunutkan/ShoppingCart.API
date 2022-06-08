@@ -29,7 +29,7 @@ namespace ShoppingCart.Business.Managers.ShoppingCart
                 };
                 await _iCouchbaseProvider.AddToCartAsync(item);
             }
-            catch (System.Exception)
+            catch (System.Exception ex)
             {
 
                 throw;

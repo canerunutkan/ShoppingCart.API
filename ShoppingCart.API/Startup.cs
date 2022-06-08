@@ -1,20 +1,14 @@
+using Couchbase;
 using Couchbase.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using ShoppingCart.Business.Managers.ShoppingCart;
-using ShoppingCart.Data.Repositories;
 using ShoppingCart.Data.Repositories.Couchbase;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace ShoppingCart.API
 {
@@ -31,8 +25,19 @@ namespace ShoppingCart.API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddSingleton<IShoppingCartManager, ShoppingCartManager>();
-            services.AddSingleton<ICouchbaseProvider, CouchbaseProvider>();
-            services.AddCouchbase(Configuration.GetSection("Couchbase"));
+            services.AddTransient<ICouchbaseProvider, CouchbaseProvider>();
+
+            var options = new ClusterOptions
+            {
+                QueryTimeout = TimeSpan.FromSeconds(10)
+            };
+
+            services.AddCouchbase(options =>
+             {
+                 options.QueryTimeout = TimeSpan.FromSeconds(10);
+                 Configuration.GetSection("Couchbase").Bind(options);
+             });
+
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
