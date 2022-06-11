@@ -8,6 +8,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using ShoppingCart.Business.Managers.ShoppingCart;
 using ShoppingCart.Data.Repositories.Couchbase;
+using ShoppingCart.Data.Repositories.Couchbase.SoppingCartRepository;
 using System;
 
 namespace ShoppingCart.API
@@ -33,10 +34,9 @@ namespace ShoppingCart.API
             };
 
             services.AddCouchbase(options =>
-             {
-                 options.QueryTimeout = TimeSpan.FromSeconds(10);
-                 Configuration.GetSection("Couchbase").Bind(options);
-             });
+            {
+                Configuration.GetSection("Couchbase").Bind(options);
+            }).AddCouchbaseBucket<IShoppingCartBucketProvider>("shoppingcart-bucket");
 
 
             services.AddControllers();
@@ -44,6 +44,9 @@ namespace ShoppingCart.API
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "ShoppingCart.API", Version = "v1" });
             });
+
+
+            services.AddSingleton<IShoppingCartRepository, ShoppingCartRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

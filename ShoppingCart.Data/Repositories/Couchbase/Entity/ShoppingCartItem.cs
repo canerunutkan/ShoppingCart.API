@@ -1,4 +1,4 @@
-﻿namespace ShoppingCart.Data.Repositories.Models
+﻿namespace ShoppingCart.Data.Repositories.Couchbase.Entity
 {
     public class ShoppingCartItem : BaseEntity
     {

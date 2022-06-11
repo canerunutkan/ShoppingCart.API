@@ -1,18 +1,20 @@
 ﻿using ShoppingCart.Business.Models.Requests;
 using ShoppingCart.Data.Repositories.Couchbase;
-using ShoppingCart.Data.Repositories.Models;
+using ShoppingCart.Data.Repositories.Couchbase.Entity;
+using ShoppingCart.Data.Repositories.Couchbase.SoppingCartRepository;
+using System;
 using System.Threading.Tasks;
 
 namespace ShoppingCart.Business.Managers.ShoppingCart
 {
     public class ShoppingCartManager : IShoppingCartManager
     {
-        private readonly ICouchbaseProvider _iCouchbaseProvider;
+        private readonly IShoppingCartRepository _shoppingCartRepository;
 
         public ShoppingCartManager(
-            ICouchbaseProvider iCouchbaseProvider)
+            IShoppingCartRepository shoppingCartRepository)
         {
-            _iCouchbaseProvider = iCouchbaseProvider;
+            _shoppingCartRepository = shoppingCartRepository;
         }
 
 
@@ -27,12 +29,13 @@ namespace ShoppingCart.Business.Managers.ShoppingCart
                     Quantity = request.Quantity
 
                 };
-                await _iCouchbaseProvider.AddToCartAsync(item);
+
+                await _shoppingCartRepository.InsertAsync(item.CustomerId.ToString(), item);
             }
-            catch (System.Exception ex)
+            catch (Exception ex)
             {
 
-                throw;
+                throw ex;
             }
 
 

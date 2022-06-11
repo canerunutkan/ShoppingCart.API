@@ -1,6 +1,6 @@
 ﻿using Couchbase;
 using Couchbase.Extensions.DependencyInjection;
-using ShoppingCart.Data.Repositories.Models;
+using ShoppingCart.Data.Repositories.Couchbase.Entity;
 using System.Threading.Tasks;
 
 namespace ShoppingCart.Data.Repositories.Couchbase
