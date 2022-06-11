@@ -13,7 +13,7 @@ namespace ShoppingCart.Data.Repositories.Couchbase
         public CouchbaseProvider(IBucketProvider bucketProvider)
         {
             _bucketProvider = bucketProvider;
-            _bucket = _bucketProvider.GetBucketAsync("shoppingcart").GetAwaiter().GetResult();
+            _bucket = _bucketProvider.GetBucketAsync("shoppingcart-bucket").GetAwaiter().GetResult();
         }
 
         public async Task<bool> AddToCartAsync(ShoppingCartItem item)
