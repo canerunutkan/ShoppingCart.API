@@ -1,4 +1,5 @@
-﻿using ShoppingCart.Business.Models.Requests;
+﻿using Couchbase.KeyValue;
+using ShoppingCart.Business.Models.Requests;
 using ShoppingCart.Data.Repositories.Couchbase;
 using ShoppingCart.Data.Repositories.Couchbase.Entity;
 using ShoppingCart.Data.Repositories.Couchbase.SoppingCartRepository;
@@ -22,6 +23,9 @@ namespace ShoppingCart.Business.Managers.ShoppingCart
         {
             try
             {
+                //generate couchbase key and item
+                string key = $"{request.CustomerId}-{request.ProductId}";
+
                 ShoppingCartItem item = new ShoppingCartItem()
                 {
                     CustomerId = request.CustomerId,
@@ -30,7 +34,22 @@ namespace ShoppingCart.Business.Managers.ShoppingCart
 
                 };
 
-                await _shoppingCartRepository.InsertAsync(item.CustomerId.ToString(), item);
+                //check if item exists
+                IExistsResult existResult = await _shoppingCartRepository.ExistsAsync(key);
+
+                //manage current item if exists
+                if (existResult.Exists)
+                {
+                    IGetResult getResult = await _shoppingCartRepository.GetAsync(key);
+
+                    ShoppingCartItem currentItem = getResult.ContentAs<ShoppingCartItem>();
+
+                    item.Quantity += currentItem.Quantity;
+                }
+
+                //upsurt new or updated item to couschbase
+                await _shoppingCartRepository.UpsertAsync(key, item);
+
             }
             catch (Exception ex)
             {

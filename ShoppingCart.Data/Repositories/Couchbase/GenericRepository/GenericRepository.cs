@@ -1,7 +1,7 @@
 ﻿using Couchbase;
 using Couchbase.KeyValue;
-using ShoppingCart.Data.Repositories.Couchbase;
 using ShoppingCart.Data.Repositories.Couchbase.Entity;
+using ShoppingCart.Data.Repositories.Couchbase.SoppingCartRepository.BucketProvider;
 using System.Threading.Tasks;
 
 namespace ShoppingCart.Data.Repositories.GenericRepository

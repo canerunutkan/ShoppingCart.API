@@ -1,4 +1,5 @@
 ﻿using ShoppingCart.Data.Repositories.Couchbase.Entity;
+using ShoppingCart.Data.Repositories.Couchbase.SoppingCartRepository.BucketProvider;
 using ShoppingCart.Data.Repositories.GenericRepository;
 
 namespace ShoppingCart.Data.Repositories.Couchbase.SoppingCartRepository

@@ -7,8 +7,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using ShoppingCart.Business.Managers.ShoppingCart;
-using ShoppingCart.Data.Repositories.Couchbase;
 using ShoppingCart.Data.Repositories.Couchbase.SoppingCartRepository;
+using ShoppingCart.Data.Repositories.Couchbase.SoppingCartRepository.BucketProvider;
 using System;
 
 namespace ShoppingCart.API
@@ -26,7 +26,6 @@ namespace ShoppingCart.API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddSingleton<IShoppingCartManager, ShoppingCartManager>();
-            services.AddTransient<ICouchbaseProvider, CouchbaseProvider>();
 
             var options = new ClusterOptions
             {
