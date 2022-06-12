@@ -30,7 +30,10 @@ namespace ShoppingCart.API.Controllers
 
             try
             {
-                response.IsSuccess = await _manager.AddToCart(request);
+                var result = await _manager.AddToCart(request);
+
+                response.IsSuccess = result.IsSuccess;
+                response.Message = result.Message;
             }
             catch (Exception ex)
             {

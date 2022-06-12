@@ -1,10 +1,11 @@
-﻿using ShoppingCart.Business.Models.Requests;
+﻿using ShoppingCart.Business.Managers.ShoppingCart.Models;
+using ShoppingCart.Business.Models.Requests;
 using System.Threading.Tasks;
 
 namespace ShoppingCart.Business.Managers.ShoppingCart
 {
     public interface IShoppingCartManager
     {
-        Task<bool> AddToCart(AddToCartRequest request);
+        Task<AddShoppingCartOpResult> AddToCart(AddToCartRequest request);
     }
 }

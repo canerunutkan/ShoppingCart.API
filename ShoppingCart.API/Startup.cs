@@ -7,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using ShoppingCart.Business.Managers.ShoppingCart;
+using ShoppingCart.Business.Managers.ShoppingCart.Helpers;
 using ShoppingCart.Data.Repositories.Couchbase.SoppingCartRepository;
 using ShoppingCart.Data.Repositories.Couchbase.SoppingCartRepository.BucketProvider;
 using System;
@@ -46,6 +47,7 @@ namespace ShoppingCart.API
 
 
             services.AddSingleton<IShoppingCartRepository, ShoppingCartRepository>();
+            services.AddSingleton<IShoppingCartValidations, ShoppingCartValidations>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
