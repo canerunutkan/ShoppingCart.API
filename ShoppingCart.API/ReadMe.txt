@@ -19,7 +19,7 @@ Unit-Integration test ile de enpointi test edebilirisniz.
 
 
 Sorunuz olursa,
-Bana 0542 464 0547 nolu telefonla ve caner.unutkan@gmail.com mail adresi ile ulaşabilirsiniz.
+Bana email veya telefon ile ulaşabilirsiniz,
 
 Görüşmek dileğiyle..
 
