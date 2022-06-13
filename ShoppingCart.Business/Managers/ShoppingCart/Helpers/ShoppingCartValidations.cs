@@ -1,7 +1,4 @@
 ﻿using ShoppingCart.Data.Repositories.Couchbase.Entity;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace ShoppingCart.Business.Managers.ShoppingCart.Helpers
@@ -22,10 +19,10 @@ namespace ShoppingCart.Business.Managers.ShoppingCart.Helpers
                 result.Message = "There is not enough stocks for operation!";
             }
 
-            if (!await CheckQuantity(item.Quantity))
+            if (!await CheckProductCount(item.Quantity))
             {
                 result.IsSuccess = false;
-                result.Message = "Max quantitiy reached for product!";
+                result.Message = "Product count can not be less then 1!";
             }
 
             return result;
@@ -40,9 +37,9 @@ namespace ShoppingCart.Business.Managers.ShoppingCart.Helpers
             return true;
         }
 
-        private async Task<bool> CheckQuantity(int quantity)
+        private async Task<bool> CheckProductCount(int quantity)
         {
-            if (quantity > 10)
+            if (quantity < 1)
                 return false;
 
             return true;

@@ -53,14 +53,70 @@ namespace UnitTests
             _logger = serviceProvider.GetService<ILogger<ShoppingCartController>>();
         }
 
+        /// <summary>
+        /// if product count is 0 in the request, than we must get 0 product error response.
+        /// </summary>
         [Fact]
-        public async void AddToCartUnitTest()
+        public async void AddToCart_With_0_Product_Count_Test()
         {
             //arrange
             var controller = new ShoppingCartController(_logger, _manager);
 
             //act
-            AddToCartRequest request = new AddToCartRequest();
+            AddToCartRequest request = new AddToCartRequest()
+            {
+                CustomerId = 1,
+                ProductId = 1,
+                Quantity = 0
+            };
+            AddToCartResponse callResult = await controller.AddToCart(request);
+
+
+            //assert
+            Assert.Equal("Product count can not be less then 1!", callResult.Message);
+        }
+
+        /// <summary>
+        /// Try to add quantity over stock
+        /// </summary>
+        [Fact]
+        public async void AddToCart_With_Over_Stock_Test()
+        {
+            //arrange
+            var controller = new ShoppingCartController(_logger, _manager);
+
+            //act
+            AddToCartRequest request = new AddToCartRequest()
+            {
+                CustomerId = 1,
+                ProductId = 1,
+                Quantity = 1000000000
+            };
+            AddToCartResponse callResult = await controller.AddToCart(request);
+
+
+            //assert
+            Assert.Equal("There is not enough stocks for operation!", callResult.Message);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [Fact]
+        public async void AddToCart_Add_With_No_Problem()
+        {
+            //arrange
+            var controller = new ShoppingCartController(_logger, _manager);
+
+            //alert: bu testin tam doðru olmasý için burada sepetin içerisindeki ürünlerin silindiði varyýlmýþtýr
+
+            //act
+            AddToCartRequest request = new AddToCartRequest()
+            {
+                CustomerId = 10,
+                ProductId = 1,
+                Quantity = 1
+            };
             AddToCartResponse callResult = await controller.AddToCart(request);
 
 
